@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -22,9 +21,9 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     private UserRepository userRepository;
 
     @Override
-    public Header<UserApiResponse> create(Header<UserApiRequest> userApiRequest) {
+    public Header<UserApiResponse> create(Header<UserApiRequest> ApiRequest) {
 
-        UserApiRequest body = userApiRequest.getData();
+        UserApiRequest body = ApiRequest.getData();
 
         User user = User.builder()
                 .account(body.getAccount())
@@ -42,20 +41,18 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
 
     @Override
     public Header<UserApiResponse> read(Long id) {
-        log.info("userRepository.findById(id) : {}", userRepository.findById(id));
-
         return userRepository.findById(id)
                 .map(user -> response(user)) // map 을 통해 다른 type 으로 변환
                 .orElseGet(()->Header.ERROR("Data Not Exists"));
     }
 
     @Override
-    public Header<UserApiResponse> update(Header<UserApiRequest> userApiRequest) {
+    public Header<UserApiResponse> update(Header<UserApiRequest> ApiRequest) {
 
-        UserApiRequest body = userApiRequest.getData();
+        UserApiRequest body = ApiRequest.getData();
         Optional<User> readUser = userRepository.findById(body.getId());
 
-        return readUser.map(user -> {                   // new object return
+        return readUser.map(user -> {
             user.setAccount(body.getAccount())
                     .setPassword(body.getPassword())
                     .setStatus(body.getStatus())
@@ -63,7 +60,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     .setEmail(body.getEmail())
                     .setRegisteredAt(body.getRegisteredAt())
                     .setUnregisteredAt(body.getUnregisteredAt());
-            return user;
+            return user;                                // new object return
         })
             .map(user -> userRepository.save(user))     // update
             .map(updateUser -> response(updateUser))    // create userApiResponse

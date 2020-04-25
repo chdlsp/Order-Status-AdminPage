@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class PartnerRepositoryTests extends AdminApplicationTests {
 
 
@@ -32,7 +30,7 @@ class PartnerRepositoryTests extends AdminApplicationTests {
                 .registeredAt(nowTime)
                 .createdAt(nowTime)
                 .createdBy("PartnerRepoTests")
-//                .categoryId(1L)
+                //.categoryId(7)
                 .build();
 
         System.out.println("partner : " + partner.toString());
