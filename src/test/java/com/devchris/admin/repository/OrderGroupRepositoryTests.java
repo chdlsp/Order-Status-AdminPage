@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OrderGroupRepositoryTests extends AdminApplicationTests {
 
     @Autowired
@@ -33,7 +31,7 @@ class OrderGroupRepositoryTests extends AdminApplicationTests {
                 .arrivalDate(nowTime)
                 .createdAt(nowTime)
                 .createdBy("OrderGroupRepoTests")
-//                .userId(1L)
+//                 .userId(1L)
                 .build();
 
         OrderGroup newOrderGroup = orderGroupRepository.save(orderGroup);
