@@ -1,8 +1,8 @@
 package com.devchris.admin.model.entity;
 
+import com.devchris.admin.model.enumClass.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -46,7 +46,10 @@ public class User {
 
     private String account;
     private String password;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     private String email;
     private String phoneNumber;
     private LocalDateTime registeredAt;

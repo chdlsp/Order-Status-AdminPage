@@ -1,5 +1,6 @@
 package com.devchris.admin.model.entity;
 
+import com.devchris.admin.model.enumClass.OrderType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -28,7 +29,9 @@ public class OrderGroup {
     private Long id;
     private String status;
 
-    private String orderType;
+    @Enumerated(EnumType.STRING)
+    private OrderType orderType;
+
     private String revAddress;
     private String revName;
     private String paymentType;
