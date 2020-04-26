@@ -1,11 +1,9 @@
 package com.devchris.admin.service;
 
-import com.devchris.admin.ifs.CrudInterface;
 import com.devchris.admin.model.entity.OrderGroup;
 import com.devchris.admin.model.network.Header;
 import com.devchris.admin.model.network.request.OrderGroupApiRequest;
 import com.devchris.admin.model.network.response.OrderGroupApiResponse;
-import com.devchris.admin.repository.OrderGroupRepository;
 import com.devchris.admin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +13,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiRequest, OrderGroupApiResponse> {
-
-    @Autowired
-    private OrderGroupRepository orderGroupRepository;
+public class OrderGroupApiLogicService extends BaseService<OrderGroupApiRequest, OrderGroupApiResponse, OrderGroup> {
 
     @Autowired
     private UserRepository userRepository;
@@ -41,7 +36,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
                 .user(userRepository.getOne(body.getUserId()))
                 .build();
 
-        OrderGroup newOrderGroup = orderGroupRepository.save(orderGroup);
+        OrderGroup newOrderGroup = baseRepository.save(orderGroup);
 
         return response(newOrderGroup);
     }
@@ -49,7 +44,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
     @Override
     public Header<OrderGroupApiResponse> read(Long id) {
 
-        Optional<OrderGroup> readOrderGroup = orderGroupRepository.findById(id);
+        Optional<OrderGroup> readOrderGroup = baseRepository.findById(id);
         log.info("readOrderGroup : {}", readOrderGroup);
 
         return readOrderGroup
@@ -62,7 +57,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
 
         OrderGroupApiRequest body = ApiRequest.getData();
 
-        return orderGroupRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(orderGroup -> {
 
                     orderGroup.setStatus(body.getStatus())
@@ -77,7 +72,7 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
                         .setUser(userRepository.getOne(body.getUserId()));
                     return orderGroup;
                 })
-                .map(newOrderGroup-> orderGroupRepository.save(newOrderGroup))
+                .map(newOrderGroup-> baseRepository.save(newOrderGroup))
                 .map(returnOrderGroup-> response(returnOrderGroup))
                 .orElseGet(()->Header.ERROR("Data Not Exists"));
     }
@@ -85,10 +80,10 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
     @Override
     public Header delete(Long id) {
 
-        Optional<OrderGroup> readOrderGroup = orderGroupRepository.findById(id);
+        Optional<OrderGroup> readOrderGroup = baseRepository.findById(id);
 
         return readOrderGroup.map(item-> {
-            orderGroupRepository.delete(item);
+            baseRepository.delete(item);
             return Header.OK();
         }).orElseGet(()->Header.ERROR("Data Not Exists"));
 

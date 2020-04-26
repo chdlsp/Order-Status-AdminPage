@@ -1,11 +1,9 @@
 package com.devchris.admin.service;
 
-import com.devchris.admin.ifs.CrudInterface;
 import com.devchris.admin.model.entity.Item;
 import com.devchris.admin.model.network.Header;
 import com.devchris.admin.model.network.request.ItemApiRequest;
 import com.devchris.admin.model.network.response.ItemApiResponse;
-import com.devchris.admin.repository.ItemRepository;
 import com.devchris.admin.repository.PartnerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +14,10 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
+public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResponse, Item> {
 
     @Autowired
     private PartnerRepository partnerRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
 
     @Override
     public Header<ItemApiResponse> create(Header<ItemApiRequest> ApiRequest) {
@@ -40,14 +35,14 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                 .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
 
-        Item newItem = itemRepository.save(item);
+        Item newItem = baseRepository.save(item);
 
         return response(newItem);
     }
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
-        Optional<Item> readItem = itemRepository.findById(id);
+        Optional<Item> readItem = baseRepository.findById(id);
         log.info("readItem : {}", readItem);
 
         return readItem
@@ -59,7 +54,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     public Header<ItemApiResponse> update(Header<ItemApiRequest> ApiRequest) {
 
         ItemApiRequest body = ApiRequest.getData();
-        Optional<Item> readItem = itemRepository.findById(body.getId());
+        Optional<Item> readItem = baseRepository.findById(body.getId());
 
         return readItem.map(item-> {
                         item.setStatus(body.getStatus())
@@ -72,7 +67,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                             .setUnregisteredAt(body.getUnregisteredAt());
                     return item;
                 })
-                .map(newReadItem-> itemRepository.save(newReadItem))
+                .map(newReadItem-> baseRepository.save(newReadItem))
                 .map(returnItem->response(returnItem))
                 .orElseGet(()->Header.ERROR("Data Not Exists"));
     }
@@ -80,10 +75,10 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     @Override
     public Header delete(Long id) {
 
-        Optional<Item> readItem = itemRepository.findById(id);
+        Optional<Item> readItem = baseRepository.findById(id);
 
         return readItem.map(item-> {
-                    itemRepository.delete(item);
+            baseRepository.delete(item);
                     return Header.OK();
                 })
                 .orElseGet(()->Header.ERROR("Data Not Exists"));

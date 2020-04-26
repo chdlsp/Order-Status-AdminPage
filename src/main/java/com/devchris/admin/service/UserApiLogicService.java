@@ -1,14 +1,11 @@
 package com.devchris.admin.service;
 
-import com.devchris.admin.ifs.CrudInterface;
 import com.devchris.admin.model.entity.User;
 import com.devchris.admin.model.enumClass.UserStatus;
 import com.devchris.admin.model.network.Header;
 import com.devchris.admin.model.network.request.UserApiRequest;
 import com.devchris.admin.model.network.response.UserApiResponse;
-import com.devchris.admin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,10 +13,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class UserApiLogicService implements CrudInterface<UserApiRequest, UserApiResponse> {
-
-    @Autowired
-    private UserRepository userRepository;
+public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResponse, User> {
 
     @Override
     public Header<UserApiResponse> create(Header<UserApiRequest> ApiRequest) {
@@ -35,14 +29,14 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                 .registeredAt(LocalDateTime.now())
                 .build();
 
-        User newUser = userRepository.save(user);
+        User newUser = baseRepository.save(user);
 
         return response(newUser);
     }
 
     @Override
     public Header<UserApiResponse> read(Long id) {
-        return userRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(user -> response(user)) // map 을 통해 다른 type 으로 변환
                 .orElseGet(()->Header.ERROR("Data Not Exists"));
     }
@@ -51,7 +45,7 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
     public Header<UserApiResponse> update(Header<UserApiRequest> ApiRequest) {
 
         UserApiRequest body = ApiRequest.getData();
-        Optional<User> readUser = userRepository.findById(body.getId());
+        Optional<User> readUser = baseRepository.findById(body.getId());
 
         return readUser.map(user -> {
             user.setAccount(body.getAccount())
@@ -63,17 +57,17 @@ public class UserApiLogicService implements CrudInterface<UserApiRequest, UserAp
                     .setUnregisteredAt(body.getUnregisteredAt());
             return user;                                // new object return
         })
-            .map(user -> userRepository.save(user))     // update
+            .map(user -> baseRepository.save(user))     // update
             .map(updateUser -> response(updateUser))    // create userApiResponse
             .orElseGet(()->Header.ERROR("Data Not Exist"));
     }
 
     @Override
     public Header delete(Long id) {
-        Optional<User> readUser = userRepository.findById(id);
+        Optional<User> readUser = baseRepository.findById(id);
 
         return readUser.map(user->{
-            userRepository.delete(user);
+            baseRepository.delete(user);
             return Header.OK();
         })
         .orElseGet(()->Header.ERROR("Data Not Exist"));

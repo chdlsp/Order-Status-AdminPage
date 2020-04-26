@@ -1,26 +1,16 @@
 package com.devchris.admin.controller.api;
 
 import com.devchris.admin.controller.CrudController;
+import com.devchris.admin.model.entity.OrderGroup;
 import com.devchris.admin.model.network.request.OrderGroupApiRequest;
 import com.devchris.admin.model.network.response.OrderGroupApiResponse;
-import com.devchris.admin.service.OrderGroupApiLogicService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.PostConstruct;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/orderGroup")
-public class OrderGroupApiController extends CrudController<OrderGroupApiRequest, OrderGroupApiResponse> {
+public class OrderGroupApiController extends CrudController<OrderGroupApiRequest, OrderGroupApiResponse, OrderGroup> {
 
-    @Autowired
-    private OrderGroupApiLogicService orderGroupApiLogicService;
-
-    @PostConstruct // Controller 생성 전 서비스 매핑
-    public void init() {
-        this.baseService = orderGroupApiLogicService;
-    }
 }

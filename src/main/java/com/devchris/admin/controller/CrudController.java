@@ -2,11 +2,16 @@ package com.devchris.admin.controller;
 
 import com.devchris.admin.ifs.CrudInterface;
 import com.devchris.admin.model.network.Header;
+import com.devchris.admin.service.BaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-public abstract class CrudController<Request, Response> implements CrudInterface<Request, Response> {
+@Component
+public abstract class CrudController<Request, Response, Entity> implements CrudInterface<Request, Response> {
 
-    protected CrudInterface<Request, Response> baseService; // 상속받은 클래스에서만 접근 가능
+    @Autowired(required = false)
+    protected BaseService<Request, Response, Entity> baseService; // 상속받은 클래스에서만 접근 가능
 
     @Override
     @PostMapping("")
