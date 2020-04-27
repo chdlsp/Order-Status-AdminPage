@@ -6,11 +6,6 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class CategoryRepositoryTests extends AdminApplicationTests {
 
     @Autowired
@@ -36,7 +31,7 @@ class CategoryRepositoryTests extends AdminApplicationTests {
 
     }
 
-    @Test
+/*    @Test
     public void read() {
         String type = "COMPUTER";
         Optional<Category> categoryOptional = categoryRepository.findByType(type);
@@ -45,6 +40,6 @@ class CategoryRepositoryTests extends AdminApplicationTests {
         categoryOptional.ifPresent(c -> {
             Assert.assertEquals(c.getType(), type);
         });
-    }
+    }*/
 
 }

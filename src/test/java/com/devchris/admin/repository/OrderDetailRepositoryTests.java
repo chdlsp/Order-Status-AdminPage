@@ -1,22 +1,14 @@
 package com.devchris.admin.repository;
 
 import com.devchris.admin.AdminApplicationTests;
-import com.devchris.admin.model.entity.OrderDetail;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderDetailRepositoryTests extends AdminApplicationTests {
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
-    @Test
+/*    @Test
     public void create() {
 
         LocalDateTime nowTime = LocalDateTime.now();
@@ -34,6 +26,6 @@ class OrderDetailRepositoryTests extends AdminApplicationTests {
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
         Assert.assertNotNull(newOrderDetail);
-    }
+    }*/
 
 }

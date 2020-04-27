@@ -1,21 +1,16 @@
 package com.devchris.admin.repository;
 
 import com.devchris.admin.AdminApplicationTests;
-import com.devchris.admin.model.entity.Item;
 import com.devchris.admin.model.entity.User;
-import com.sun.media.jfxmedia.logging.Logger;
+import com.devchris.admin.model.enumClass.UserStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import org.junit.jupiter.api.Test;
-
-import javax.transaction.Transactional;
-
-import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @Slf4j
@@ -31,7 +26,7 @@ public class UserRepositoryTests extends AdminApplicationTests {
         User user = User.builder()
                 .account("TestUser02")
                 .password("TestUser02")
-                .status("REGISTERED")
+                .status(UserStatus.REGISTERED)
                 .email("TestUser02@gmail.com")
                 .phoneNumber("010-1111-1111")
                 .registeredAt(nowTime)

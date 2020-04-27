@@ -1,12 +1,7 @@
 package com.devchris.admin.repository;
 
 import com.devchris.admin.AdminApplicationTests;
-import com.devchris.admin.model.entity.Partner;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.time.LocalDateTime;
 
 class PartnerRepositoryTests extends AdminApplicationTests {
 
@@ -14,7 +9,7 @@ class PartnerRepositoryTests extends AdminApplicationTests {
     @Autowired
     private PartnerRepository partnerRepository;
 
-    @Test
+/*    @Test
     public void create() {
 
         LocalDateTime nowTime = LocalDateTime.now();
@@ -39,6 +34,6 @@ class PartnerRepositoryTests extends AdminApplicationTests {
         Assert.assertNotNull(newPartner);
 
 
-    }
+    }*/
 
 }

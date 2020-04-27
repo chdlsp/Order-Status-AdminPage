@@ -1,27 +1,21 @@
 package com.devchris.admin.repository;
 
 import com.devchris.admin.AdminApplicationTests;
-import com.devchris.admin.model.entity.OrderGroup;
-import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 class OrderGroupRepositoryTests extends AdminApplicationTests {
 
     @Autowired
     private OrderGroupRepository orderGroupRepository;
 
-    @Test
+/*    @Test
     public void create() {
 
         LocalDateTime nowTime = LocalDateTime.now();
 
         OrderGroup orderGroup = OrderGroup.builder()
                 .status("COMPLETE")
-                .orderType("ALL")
+                .orderType(OrderType.ALL)
                 .revAddress("서울시 강남구")
                 .revName("홍길동")
                 .paymentType("CARD")
@@ -38,5 +32,5 @@ class OrderGroupRepositoryTests extends AdminApplicationTests {
 
         Assert.assertNotNull(newOrderGroup);
 
-    }
+    }*/
 }
