@@ -71,7 +71,7 @@ public class OrderDetailSample extends AdminApplicationTests {
         int itemCount = random.nextInt(10)+1;
         for(int i = 0 ; i < itemCount; i ++){
             // db에 아이템 갯수가 총 500개 ( * 자신의 샘플에 맞추세요 )
-            int itemNumber = random.nextInt(405)+1;
+            int itemNumber = random.nextInt(810)+1;
 
             Item item = itemRepository.findById((long)itemNumber).get();
             totalAmount += item.getPrice().doubleValue();
@@ -144,6 +144,8 @@ public class OrderDetailSample extends AdminApplicationTests {
                     .item(item)
                     .arrivalDate(type.equals(OrderType.ALL) ? orderGroup.getArrivalDate() : getRandomDate())
                     .status(type.equals(OrderType.ALL) ? status :orderDetailStatus)
+                    .quantity(orderGroup.getTotalQuantity())
+                    .totalPrice(orderGroup.getTotalPrice())
                     .build();
             orderDetailRepository.save(orderDetail);
             orderHistoryDetails.add(orderDetail);

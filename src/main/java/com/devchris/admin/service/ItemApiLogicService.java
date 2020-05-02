@@ -85,7 +85,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
 
     }
 
-    private Header<ItemApiResponse> response(Item item) {
+    public Header<ItemApiResponse> response(Item item) {
 
         // TODO : Enum 설명 수정 : String statusTitle = item.getStatus().getDescription();
 
